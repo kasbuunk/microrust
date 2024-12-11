@@ -18,15 +18,24 @@ fn main() -> ! {
     // create the Display
     let mut display = Display::new(board.display_pins);
     // and light up some LEDs
-    let grid = block();
+    let mut grid = block();
     loop {
         display.show(&mut timer, grid, 1000);
         display.clear();
         timer.delay_ms(250);
+        grid = next(grid);
     }
 }
 
 type Grid = [[u8; 5]; 5];
+
+fn next(grid: Grid) -> Grid {
+    if grid == block() {
+        return heart();
+    }
+
+    block()
+}
 
 fn block() -> Grid {
     [
