@@ -3,7 +3,6 @@
 #![no_main]
 
 use cortex_m_rt::entry;
-use embedded_hal::delay::DelayNs;
 use microbit::board::Board;
 use microbit::display::blocking::Display;
 use microbit::hal;
@@ -18,11 +17,11 @@ fn main() -> ! {
     // create the Display
     let mut display = Display::new(board.display_pins);
     // and light up some LEDs
-    let mut grid = block();
+    let mut grid = glider();
+
     loop {
-        display.show(&mut timer, grid, 1000);
-        display.clear();
-        timer.delay_ms(250);
+        display.show(&mut timer, grid, 100);
+        // Update the game.
         grid = next(grid);
     }
 }
@@ -89,5 +88,15 @@ fn heart() -> Grid {
         [1, 0, 0, 0, 1],
         [0, 1, 0, 1, 0],
         [0, 0, 1, 0, 0],
+    ]
+}
+
+fn glider() -> Grid {
+    [
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 1, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0],
     ]
 }
