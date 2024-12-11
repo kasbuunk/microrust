@@ -30,11 +30,22 @@ fn main() -> ! {
 type Grid = [[u8; 5]; 5];
 
 fn next(grid: Grid) -> Grid {
-    if grid == block() {
-        return heart();
+    let mut updated = [[0; 5]; 5];
+
+    for (index_row, row) in grid.iter().enumerate() {
+        for (index_column, cell) in row.iter().enumerate() {
+            let num_neighbours = neighbours(grid, index_row, index_column);
+            if num_neighbours == 2 || num_neighbours == 3 {
+                updated[index_row][index_column] = 1;
+            }
+        }
     }
 
-    block()
+    updated
+}
+
+fn neighbours(grid: Grid, row: usize, column: usize) -> u8 {
+    return (row + column) as u8;
 }
 
 fn block() -> Grid {
