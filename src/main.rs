@@ -10,17 +10,22 @@ use panic_halt as _;
 
 #[entry]
 fn main() -> ! {
-    // take the board
+    // Construct the board.
     let board = Board::take().unwrap();
-    // make a timer
+
+    // Make a timer.
     let mut timer = hal::Timer::new(board.TIMER0);
-    // create the Display
+
+    // Create the Display.
     let mut display = Display::new(board.display_pins);
-    // and light up some LEDs
+
+    // Construct initial state.
     let mut grid = glider();
 
     loop {
-        display.show(&mut timer, grid, 100);
+        // Show on the led grid.
+        display.show(&mut timer, grid, 300);
+
         // Update the game.
         grid = next(grid);
     }
@@ -106,6 +111,35 @@ fn blinker() -> Grid {
         [0, 0, 0, 0, 0],
         [0, 0, 1, 0, 0],
         [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+}
+
+fn tub() -> Grid {
+    [
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 1, 0, 1, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+}
+fn boat() -> Grid {
+    [
+        [0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0],
+        [0, 1, 0, 1, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+    ]
+}
+
+fn r_pentonimo() -> Grid {
+    [
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 0],
+        [0, 1, 1, 0, 0],
         [0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0],
     ]
